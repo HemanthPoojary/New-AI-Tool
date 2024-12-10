@@ -24,27 +24,39 @@ export async function POST(req: Request) {
       );
     }
 
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4",
-      messages: [
-        {
-          role: "system",
-          content: `You are a comedy writer. Generate a ${length} punchline in ${language} based on the given input.`
-        },
-        {
-          role: "user",
-          content: input
-        }
-      ]
-    });
+    // Add error handling for OpenAI API calls
+    let completion;
+    let image;
 
-    const image = await openai.images.generate({
-      model: "dall-e-3",
-      prompt: `Create a funny comic style illustration for this joke: ${completion.choices[0].message.content}`,
-      size: "1024x1024",
-      quality: "standard",
-      n: 1,
-    });
+    try {
+      completion = await openai.chat.completions.create({
+        model: "gpt-4",
+        messages: [
+          {
+            role: "system",
+            content: `You are a comedy writer. Generate a ${length} punchline in ${language} based on the given input.`
+          },
+          {
+            role: "user",
+            content: input
+          }
+        ]
+      });
+
+      image = await openai.images.generate({
+        model: "dall-e-3",
+        prompt: `Create a funny comic style illustration for this joke: ${completion.choices[0].message.content}`,
+        size: "1024x1024",
+        quality: "standard",
+        n: 1,
+      });
+    } catch (apiError) {
+      console.error('OpenAI API Error:', apiError);
+      return NextResponse.json(
+        { error: 'Failed to generate content from OpenAI' },
+        { status: 503 }
+      );
+    }
 
     return NextResponse.json({
       punchline: completion.choices[0].message.content,
@@ -53,7 +65,7 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error('Error:', error);
     return NextResponse.json(
-      { error: 'Failed to generate content' },
+      { error: 'Failed to process request' },
       { status: 500 }
     );
   }
