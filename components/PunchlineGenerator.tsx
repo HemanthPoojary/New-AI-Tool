@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { PlayCircle, Download, RefreshCw } from 'lucide-react'
+import Image from 'next/image'
 
 export default function PunchlineGenerator() {
   const [input, setInput] = useState('')
@@ -145,7 +146,12 @@ export default function PunchlineGenerator() {
           </div>
           <div>
             <h2 className="text-xl font-semibold mb-2">Generated Comic:</h2>
-            <img src={imageUrl} alt="Generated Comic" className="w-full h-auto rounded-lg" />
+            <Image 
+              src={imageUrl}
+              alt="Generated Comic"
+              width={500}
+              height={300}
+            />
           </div>
           <div className="flex justify-between">
             <button 

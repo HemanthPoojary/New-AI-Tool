@@ -12,7 +12,7 @@ export default function Home() {
       <div className="w-full max-w-md">
         <h1 className="mb-2 text-4xl font-bold text-center text-white">Punching Star</h1>
         <p className="mb-8 text-xl text-center text-white italic">
-          "Where AI meets comedy, and laughter knows no bounds!"
+          'Where AI meets comedy, and laughter knows no bounds!'
         </p>
         <PunchlineGenerator />
       </div>
