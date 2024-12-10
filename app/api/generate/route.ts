@@ -6,10 +6,24 @@ const openai = new OpenAI({
 });
 
 export async function POST(req: Request) {
-  try {
-    const { input, length, language } = await req.json();
+  if (!process.env.OPENAI_API_KEY) {
+    return NextResponse.json(
+      { error: 'OpenAI API key not configured' },
+      { status: 500 }
+    );
+  }
 
-    // Generate punchline using GPT-4
+  try {
+    const body = await req.json();
+    const { input, length, language } = body;
+
+    if (!input || !length || !language) {
+      return NextResponse.json(
+        { error: 'Missing required fields' },
+        { status: 400 }
+      );
+    }
+
     const completion = await openai.chat.completions.create({
       model: "gpt-4",
       messages: [
@@ -24,7 +38,6 @@ export async function POST(req: Request) {
       ]
     });
 
-    // Generate image using DALL-E
     const image = await openai.images.generate({
       model: "dall-e-3",
       prompt: `Create a funny comic style illustration for this joke: ${completion.choices[0].message.content}`,
@@ -39,6 +52,9 @@ export async function POST(req: Request) {
     });
   } catch (error) {
     console.error('Error:', error);
-    return NextResponse.json({ error: 'Failed to generate content' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to generate content' },
+      { status: 500 }
+    );
   }
 } 

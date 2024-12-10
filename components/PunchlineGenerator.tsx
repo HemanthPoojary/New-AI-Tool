@@ -91,6 +91,17 @@ export default function PunchlineGenerator() {
     }
   };
   
+  const handleDownloadImage = () => {
+    if (imageUrl) {
+      const a = document.createElement('a');
+      a.href = imageUrl;
+      a.download = 'generated-comic.png';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  };
+  
   return (
     <div className="bg-white rounded-lg shadow-xl p-6">
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -139,7 +150,7 @@ export default function PunchlineGenerator() {
       </form>
 
       {punchline && (
-        <div className="mt-8 space-y-4">
+        <div className="mt-8 space-y-6">
           <div className="bg-gray-100 p-4 rounded-lg">
             <h2 className="text-xl font-semibold mb-2">Generated Punchline:</h2>
             <p>{punchline}</p>
@@ -151,26 +162,33 @@ export default function PunchlineGenerator() {
               alt="Generated Comic"
               width={500}
               height={300}
+              className="rounded-lg shadow-md"
             />
           </div>
-          <div className="flex justify-between">
+          <div className="grid grid-cols-2 gap-4">
             <button 
               onClick={handlePlayAudio}
-              className="flex items-center bg-white border border-gray-300 rounded-md px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="flex items-center justify-center bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-md px-4 py-3 text-sm font-medium hover:from-blue-600 hover:to-blue-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-md"
             >
-              <PlayCircle className="mr-2 h-4 w-4" /> Play Audio
+              <PlayCircle className="mr-2 h-5 w-5" /> Play Audio
             </button>
             <button 
               onClick={handleDownloadAudio}
-              className="flex items-center bg-white border border-gray-300 rounded-md px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="flex items-center justify-center bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-md px-4 py-3 text-sm font-medium hover:from-purple-600 hover:to-purple-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 shadow-md"
             >
-              <Download className="mr-2 h-4 w-4" /> Download Audio
+              <Download className="mr-2 h-5 w-5" /> Download Audio
+            </button>
+            <button 
+              onClick={handleDownloadImage}
+              className="flex items-center justify-center bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-md px-4 py-3 text-sm font-medium hover:from-emerald-600 hover:to-emerald-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 shadow-md"
+            >
+              <Download className="mr-2 h-5 w-5" /> Download Image
             </button>
             <button 
               onClick={handleRegenerate}
-              className="flex items-center bg-white border border-gray-300 rounded-md px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="flex items-center justify-center bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-md px-4 py-3 text-sm font-medium hover:from-amber-600 hover:to-amber-700 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 shadow-md"
             >
-              <RefreshCw className="mr-2 h-4 w-4" /> Regenerate
+              <RefreshCw className="mr-2 h-5 w-5" /> Regenerate
             </button>
           </div>
         </div>
