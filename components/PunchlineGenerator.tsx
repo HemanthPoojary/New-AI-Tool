@@ -22,6 +22,10 @@ export default function PunchlineGenerator() {
         body: JSON.stringify({ input, length, language }),
       });
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const data = await response.json();
       setPunchline(data.punchline);
       setImageUrl(data.imageUrl);

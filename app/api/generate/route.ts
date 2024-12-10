@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import OpenAI from 'openai';
 
+export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: Request) {
   // Initialize OpenAI only when the API is called
   const openai = new OpenAI({
@@ -74,13 +77,6 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
-}
-
-export async function GET() {
-  return NextResponse.json(
-    { message: 'Method not allowed' },
-    { status: 405 }
-  );
 }
 
 export async function GET() {
