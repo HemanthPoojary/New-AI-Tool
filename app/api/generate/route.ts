@@ -1,12 +1,14 @@
 import { NextResponse } from 'next/server';
 import OpenAI from 'openai';
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
-
 export async function POST(req: Request) {
+  // Initialize OpenAI only when the API is called
+  const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY || ''
+  });
+
   if (!process.env.OPENAI_API_KEY) {
+    console.error('OpenAI API key is missing');
     return NextResponse.json(
       { error: 'OpenAI API key not configured' },
       { status: 500 }
@@ -18,17 +20,18 @@ export async function POST(req: Request) {
     const { input, length, language } = body;
 
     if (!input || !length || !language) {
+      console.error('Missing required fields:', { input, length, language });
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
       );
     }
 
-    // Add error handling for OpenAI API calls
     let completion;
     let image;
 
     try {
+      console.log('Generating completion...');
       completion = await openai.chat.completions.create({
         model: "gpt-4",
         messages: [
@@ -43,6 +46,7 @@ export async function POST(req: Request) {
         ]
       });
 
+      console.log('Generating image...');
       image = await openai.images.generate({
         model: "dall-e-3",
         prompt: `Create a funny comic style illustration for this joke: ${completion.choices[0].message.content}`,
@@ -58,6 +62,7 @@ export async function POST(req: Request) {
       );
     }
 
+    console.log('Successfully generated content');
     return NextResponse.json({
       punchline: completion.choices[0].message.content,
       imageUrl: image.data[0].url
@@ -69,4 +74,18 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
-} 
+}
+
+export async function GET() {
+  return NextResponse.json(
+    { message: 'Method not allowed' },
+    { status: 405 }
+  );
+}
+
+export async function GET() {
+  return NextResponse.json(
+    { message: 'Method not allowed' },
+    { status: 405 }
+  );
+}
