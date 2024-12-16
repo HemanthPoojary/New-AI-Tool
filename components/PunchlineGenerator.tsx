@@ -107,17 +107,17 @@ export default function PunchlineGenerator() {
   };
   
   return (
-    <div className="bg-white rounded-lg shadow-xl p-6">
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="bg-black rounded-lg shadow-2xl p-8">
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label htmlFor="input" className="block text-sm font-medium text-gray-700">Your Input</label>
+          <label htmlFor="input" className="block text-lg font-medium text-white mb-2">Your Input</label>
           <textarea
             id="input"
             placeholder="Enter a word, sentence, or paragraph"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-[#ecf39e]"
-            rows={3}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-[#ecf39e] p-4 text-lg"
+            rows={4}
           />
         </div>
         <div className="grid grid-cols-2 gap-4">
@@ -154,19 +154,19 @@ export default function PunchlineGenerator() {
       </form>
 
       {punchline && (
-        <div className="mt-8 space-y-6">
-          <div className="bg-gray-100 p-4 rounded-lg">
-            <h2 className="text-xl font-semibold mb-2">Generated Punchline:</h2>
-            <p>{punchline}</p>
+        <div className="mt-10 space-y-8">
+          <div className="bg-gray-100 p-6 rounded-lg">
+            <h2 className="text-2xl font-semibold mb-4">Generated Punchline:</h2>
+            <p className="text-lg">{punchline}</p>
           </div>
           <div>
-            <h2 className="text-xl font-semibold mb-2">Generated Comic:</h2>
+            <h2 className="text-2xl font-semibold mb-4 text-white">Generated Comic:</h2>
             <Image 
               src={imageUrl}
               alt="Generated Comic"
-              width={500}
-              height={300}
-              className="rounded-lg shadow-md"
+              width={800}
+              height={480}
+              className="rounded-lg shadow-md w-full"
             />
           </div>
           <div className="grid grid-cols-2 gap-4">

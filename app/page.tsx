@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4">
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-3xl">
         <h1 className="mb-2 text-4xl font-bold text-center text-white">Punching Star</h1>
         <p className="mb-8 text-xl text-center text-white italic">
           'Where AI meets comedy, and laughter knows no bounds!'
